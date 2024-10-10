@@ -39,7 +39,7 @@ models:
     +primary_index: [ <column-name>, ... ]
     +indexes:
       - type: aggregating
-        key_column: [ <column-name>, ... ]
+        key_columns: [ <column-name>, ... ]
         aggregation: [ <agg-sql>, ... ]
       ...
 ```
@@ -59,7 +59,7 @@ models:
       primary_index: [ <column-name>, ... ]
       indexes:
         - type: aggregating
-          key_column: [ <column-name>, ... ]
+          key_columns: [ <column-name>, ... ]
           aggregation: [ <agg-sql>, ... ]
         ...
 ```
@@ -78,7 +78,7 @@ models:
     indexes = [
       {
         type = "aggregating"
-        key_column = [ "<column-name>", ... ],
+        key_columns = [ "<column-name>", ... ],
         aggregation = [ "<agg-sql>", ... ],
       },
       ...
@@ -100,7 +100,7 @@ models:
 | `primary_index`   | Sets the primary index for the fact table using the inputted list of column names from the model. Required for fact tables. |
 | `indexes`         | A list of aggregating indexes to create on the fact table. |
 | `type`            | Specifies that the index is an [aggregating index](https://docs.firebolt.io/godocs/Guides/working-with-indexes/using-aggregating-indexes.html). Should be set to `aggregating`. |
-| `key_column`      | Sets the grouping of the aggregating index using the inputted list of column names from the model. |
+| `key_columns`      | Sets the grouping of the aggregating index using the inputted list of column names from the model. |
 | `aggregation`     | Sets the aggregations on the aggregating index using the inputted list of SQL agg expressions. |
 
 
@@ -114,7 +114,7 @@ models:
     indexes = [
       {
         type: "aggregating",
-        key_column: "order_id",
+        key_columns: "order_id",
         aggregation: ["COUNT(DISTINCT status)", "AVG(customer_id)"]
       }
     ]
@@ -195,7 +195,7 @@ Dimension tables do not support aggregation indexes.
 In dbt-firebolt, you do not provide names for aggregating indexes; they are named programmatically. dbt will generate index names using the following convention:
 
 ```
-<table-name>__<key-column>__<index-type>_<unix-timestamp-at-execution>
+<table-name>__<key-columns>__<index-type>_<unix-timestamp-at-execution>
 ```
 
 For example, a join index could be named `my_users__id__join_1633504263` and an aggregating index could be named `my_orders__order_date__aggregating_1633504263`.
